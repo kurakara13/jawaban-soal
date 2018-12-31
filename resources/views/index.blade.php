@@ -20,7 +20,7 @@
             </div>
           </div>
         </a>
-        <a href="">
+        <a href="{{url('program-buble-sort')}}">
           <div class="card">
             <img class="card-img-top" src="{{asset('img/bubble-sort.png')}}" alt="Card image">
             <div class="card-body text-center">

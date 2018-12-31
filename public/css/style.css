@@ -8,6 +8,13 @@
   padding: 20px;
 }
 
+.hasil{
+    padding: 20px;
+    background: darkgrey;
+    height: 325px;
+    overflow-y: scroll;
+}
+
 #custom-search-input{
     padding: 3px;
     border: solid 1px #E4E4E4;

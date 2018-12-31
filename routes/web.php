@@ -18,3 +18,9 @@ Route::group(array('prefix' => 'program-duplikat'), function()
   Route::get('/', 'DuplikatController@index')->name('duplikat.index');
   Route::post('/post', 'DuplikatController@cekduplikat')->name('duplikat.post');
 });
+
+Route::group(array('prefix' => 'program-buble-sort'), function()
+{
+  Route::get('/', 'BubleSortController@index')->name('buble-sort.index');
+  Route::post('/post', 'BubleSortController@buble_sort')->name('buble-sort.post');
+});
