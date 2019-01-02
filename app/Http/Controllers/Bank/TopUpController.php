@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Bank;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TopUpController extends Controller
 {

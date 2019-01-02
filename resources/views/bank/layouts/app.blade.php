@@ -147,6 +147,17 @@
                           <i class="icon-docs"></i><span> laporan mutasi</span>
                       </a>
                   </li>
+                  <li class="nav-level">Account</li>
+                  <li class="{{ (\Request::route()->getName() == 'profile.index') ? 'active' : '' }} treeview">
+                      <a class="waves-effect waves-dark" href="{{url('bank/profile')}}">
+                          <i class="icon-user"></i><span> Profile</span>
+                      </a>
+                  </li>
+                  <li class="{{ (\Request::route()->getName() == 'bank.setting') ? 'active' : '' }} treeview">
+                      <a class="waves-effect waves-dark" href="{{url('bank/bank-account')}}">
+                          <i class="icon-settings"></i><span> Bank Account</span>
+                      </a>
+                  </li>
               </ul>
           </section>
       </aside>

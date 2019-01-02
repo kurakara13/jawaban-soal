@@ -14,7 +14,7 @@
     <div class="col-lg-12 col-sm-6">
         <div class="col-sm-12 card dashboard-product">
             <span>Your Balance</span>
-            <h2 class="dashboard-total-products">IDR 4,500,00</h2>
+            <h2 class="dashboard-total-products">IDR {{Auth::user()->ammount}},00</h2>
             <div class="side-box bg-primary">
                 <i class="feather icon-credit-card"></i>
             </div>
@@ -51,13 +51,9 @@
 $(document).ready(function() {
 
   lineChart();
-  areaChart();
-  donutChart();
 
   $(window).resize(function() {
     window.lineChart.redraw();
-    window.areaChart.redraw();
-    window.donutChart.redraw();
   });
 });
 

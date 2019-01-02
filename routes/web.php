@@ -27,8 +27,20 @@ Route::group(array('prefix' => 'program-buble-sort'), function()
 
 Route::group(array('prefix' => 'bank'), function()
 {
-  Route::get('/', 'BankController@index')->name('bank.home');
-  Route::resource('topup', 'TopUpController');
+  Route::get('/', 'Bank\BankController@index')->name('bank.home');
+
+  //topup
+  Route::resource('topup', 'Bank\TopUpController', [
+    'except' => ['update', 'edit', 'destroy']
+  ]);
+
+  //Profile
+  Route::resource('profile', 'Bank\ProfileController', [
+    'except' => ['create', 'show', 'store', 'destroy']
+  ]);
+
+  //Bank Account
+  Route::resource('bank-account', 'Bank\BankAccountController');
 
   //Auth
   Route::get('/login', 'Auth\LoginController@showLoginForm')->name('bank.login');
