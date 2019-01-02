@@ -28,7 +28,7 @@
             </div>
           </div>
         </a>
-        <a href="">
+        <a href="{{url('bank')}}">
           <div class="card">
             <img class="card-img-top" src="{{asset('img/bank.png')}}" alt="Card image">
             <div class="card-body text-center">

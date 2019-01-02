@@ -11,7 +11,7 @@ class BubleSortController extends Controller
       return view('buble-sort.index');
     }
 
-    public function buble_sort(Request $request){
+    public function bubleSort(Request $request){
       $data = str_split($request['datainput']);
       $n=count($data);
       $tampil = '';

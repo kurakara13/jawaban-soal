@@ -11,7 +11,7 @@ class DuplikatController extends Controller
       return view('duplikat.index');
     }
 
-    public function cekduplikat(Request $request){
+    public function cekDuplikat(Request $request){
       $data = str_split($request['datainput']);
       $duplikatCount = array_count_values($data);
       $duplikatData =  '';
