@@ -14,7 +14,31 @@
     <div class="col-lg-12 col-sm-6">
         <div class="col-sm-12 card dashboard-product">
             <span>Your Balance</span>
-            <h2 class="dashboard-total-products">IDR {{Auth::user()->ammount}},00</h2>
+            <h2 class="dashboard-total-products">IDR {{$bank_ammount->ammount}},00</h2>
+            <div class="form-group">
+              <form method="post" action="{{url('bank/bank-account/account-change')}}" id="bank-change">
+                @csrf
+                <span>Bank Account : </span>
+                <?php
+                  $selected = '';
+                  $account_id = null;
+
+                  if(session()->has('account_id')){
+                    $selected = 'selected';
+                    $account_id = session()->get('account_id');
+                  }
+                 ?>
+                <select name="id" onchange="bankChange()">
+                  @foreach($bank_account as $key)
+                  <option value="{{$key->id}}" @if($key->id ==  $account_id) {{'Selected'}} @endif>{{$key->account_number}}</option>
+                  @endforeach
+                </select>
+              </form>
+              @if(Session::has('message-account'))
+                <br>
+                <p class="alert alert-success">{{ Session::get('message-account') }}</p>
+              @endif
+            </div>
             <div class="side-box bg-primary">
                 <i class="feather icon-credit-card"></i>
             </div>
@@ -76,6 +100,10 @@ function lineChart() {
         labels: ['TopUp', 'WithDraw'],
         lineColors :['#2196F3','#ff5252']
     });
+}
+
+function bankChange(){
+  $( "#bank-change" ).submit();
 }
 </script>
 

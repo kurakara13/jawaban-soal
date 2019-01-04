@@ -41,6 +41,7 @@ Route::group(array('prefix' => 'bank'), function()
 
   //Bank Account
   Route::resource('bank-account', 'Bank\BankAccountController');
+  Route::post('/bank-account/account-change', 'Bank\BankAccountController@accountChange')->name('bank.account.change');
 
   //Auth
   Route::get('/login', 'Auth\LoginController@showLoginForm')->name('bank.login');

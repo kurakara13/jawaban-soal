@@ -19,7 +19,31 @@
     <div class="col-lg-12 col-sm-6">
         <div class="col-sm-12 card dashboard-product">
             <span>Your Balance</span>
-            <h2 class="dashboard-total-products">IDR {{Auth::user()->ammount}},00</h2>
+            <h2 class="dashboard-total-products">IDR {{$bank_ammount->ammount}},00</h2>
+            <div class="form-group">
+              <form method="post" action="{{url('bank/bank-account/account-change')}}" id="bank-change">
+                @csrf
+                <span>Bank Account : </span>
+                <?php
+                  $selected = '';
+                  $account_id = null;
+
+                  if(session()->has('account_id')){
+                    $selected = 'selected';
+                    $account_id = session()->get('account_id');
+                  }
+                 ?>
+                <select name="id" onchange="bankChange()">
+                  @foreach($bank_account as $key)
+                  <option value="{{$key->id}}" @if($key->id ==  $account_id) {{'Selected'}} @endif>{{$key->account_number}}</option>
+                  @endforeach
+                </select>
+              </form>
+              @if(Session::has('message-account'))
+                <br>
+                <p class="alert alert-success">{{ Session::get('message-account') }}</p>
+              @endif
+            </div>
             <button class="btn bg-primary">
                 New TopUp
             </button>
@@ -41,27 +65,22 @@
                         <thead>
                           <tr>
                               <th>TopUp Code</th>
-                              <th>Email</th>
+                              <th>Recive Email</th>
                               <th>TopUp Date</th>
                               <th>Ammount</th>
                               <th></th>
                           </tr>
                         </thead>
                         <tbody>
+                          @foreach($topup as $key)
                           <tr>
-                              <td>AS124AS</td>
-                              <td>{{ Auth::user()->email }}</td>
-                              <td>{{ date('Y-m-d H:m:s')}}</td>
-                              <td>IDR Rp. 100,000,00</td>
+                              <td>{{$key->topup_code}}</td>
+                              <td>{{ $key->recive_email }}</td>
+                              <td>{{ $key->created_at}}</td>
+                              <td>IDR Rp. {{$key->ammount}},00</td>
                               <td><button class="btn btn-primary">Detail</button></td>
                           </tr>
-                          <tr>
-                              <td>DA162SA</td>
-                              <td>{{ Auth::user()->email }}</td>
-                              <td>{{ date('Y-m-d H:m:s')}}</td>
-                              <td>IDR Rp. 5,000,000,00</td>
-                              <td><button class="btn btn-primary">Detail</button></td>
-                          </tr>
+                          @endforeach
                         </tbody>
                       </table>
                   </div>
@@ -83,6 +102,10 @@ $(document).ready(function() {
     responsive: true
   });
 });
+
+function bankChange(){
+  $( "#bank-change" ).submit();
+}
 </script>
 
 @endsection

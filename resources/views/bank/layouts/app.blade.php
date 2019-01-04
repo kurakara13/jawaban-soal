@@ -105,7 +105,7 @@
               <div class="user-panel">
                   <div class="f-left image"><img src="{{asset('vendor/ablepro-lite/assets/images/avatar-1.png')}}" alt="User Image" class="img-circle"></div>
                   <div class="f-left info">
-                      <p>John Doe</p>
+                      <p>{{ Auth::user()->firstname.' '. Auth::user()->lastname }}</p>
                       <p class="designation">Member <i class="icofont icofont-caret-down m-l-5"></i></p>
                   </div>
               </div>
