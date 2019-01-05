@@ -14,7 +14,7 @@
     <div class="col-lg-12 col-sm-6">
         <div class="col-sm-12 card dashboard-product">
             <span>Your Balance</span>
-            <h2 class="dashboard-total-products">IDR {{$bank_ammount->ammount}},00</h2>
+            <h2 class="dashboard-total-products">IDR {{$ammount}},00</h2>
             <div class="form-group">
               <form method="post" action="{{url('bank/bank-account/account-change')}}" id="bank-change">
                 @csrf

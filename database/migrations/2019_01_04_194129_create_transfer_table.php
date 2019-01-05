@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTopUpTable extends Migration
+class CreateTransferTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateTopUpTable extends Migration
      */
     public function up()
     {
-        Schema::create('topup', function (Blueprint $table) {
+        Schema::create('transfer', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('bank_account_id')->unsigned();
-            $table->string('topup_code')->unique();
+            $table->string('transfer_code')->unique();
             $table->bigInteger('ammount');
             $table->bigInteger('previous_ammount');
             $table->bigInteger('current_ammount');
+            $table->string('recive_account');
+            $table->string('recive_bank');
             $table->string('information');
-            $table->string('note');
+            $table->text('note');
             $table->timestamps();
         });
     }

@@ -43,8 +43,14 @@
                 <br>
                 <p class="alert alert-success">{{ Session::get('message-account') }}</p>
               @endif
-              <button type="button" class="btn btn-info"  style="float:right;" data-toggle="modal" data-target="#createModal">New Account</button>
+
+              @if(Session::has('message-transaction-code'))
+                <p class="alert alert-danger">{{ Session::get('message-transaction-code') }}</p>
+              @endif
             </div>
+            <button class="btn bg-primary" data-toggle="modal" data-target="#createModal">
+                New TopUp
+            </button>
         </div>
     </div>
   </div>
@@ -54,7 +60,7 @@
     <div class="col-sm-12">
       <div class="card">
           <div class="card-header">
-              <h5 class="card-header-text">Bank List</h5>
+              <h5 class="card-header-text">TopUp Activity</h5>
           </div>
           <div class="card-block">
               <div class="row">
@@ -62,20 +68,20 @@
                       <table id="example" class="display" style="width:100%">
                         <thead>
                           <tr>
-                              <th>#</th>
-                              <th>Account Number</th>
-                              <th>Name</th>
-                              <th>Bank</th>
+                              <th>TopUp Code</th>
+                              <th>Recive Account</th>
+                              <th>TopUp Date</th>
+                              <th>Ammount</th>
                               <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach($bank_account as $key)
+                          @foreach($topup as $key)
                           <tr>
-                              <td>{{$loop->index+1}}</td>
-                              <td>{{$key->account_number}}</td>
-                              <td>{{$key->account_name}}</td>
-                              <td>{{$key->bank_name}}</td>
+                              <td>{{$key->topup_code}}</td>
+                              <td>{{ $key->recive_email }}</td>
+                              <td>{{ $key->created_at}}</td>
+                              <td>IDR Rp. {{$key->ammount}},00</td>
                               <td><button class="btn btn-primary">Detail</button></td>
                           </tr>
                           @endforeach
@@ -96,7 +102,7 @@
   <div class="modal-dialog">
 
     <!-- Modal content-->
-    <form action="{{url('bank/bank-account')}}" method="POST">
+    <form action="{{url('bank/topup')}}" method="POST">
       @csrf
       <div class="modal-content">
         <div class="modal-header">
@@ -104,39 +110,45 @@
           <h4 class="modal-title">New Bank Account</h4>
         </div>
         <div class="modal-body">
-          @if(Session::has('message'))
-            <p class="alert alert-success">{{ Session::get('message') }}</p>
-          @endif
   		    <div class="form-group has-error">
-  		        <label for="slug">Account Number <span class="require">*</span></label>
-  		        <input type="number" class="form-control" name="account_number" />
-  		    </div>
-
-  		    <div class="form-group">
-  		        <label for="title">Name <span class="require">*</span></label>
-  		        <input type="text" class="form-control" name="account_name" />
+            <div class="row">
+              <div class="col-sm-6">
+    		        <label for="description">Your Account Number</label>
+                <select name="bank_account" class="form-control" required>
+                  <option value="">Choose Account</option>
+                  @foreach($bank_account as $key)
+                  <option value="{{$key->id}}">{{$key->account_number}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-sm-6">
+    		        <label for="description">Recive Account Number</label>
+                <input type="number" class="form-control" name="recive_account_number" required></input>
+              </div>
+            </div>
   		    </div>
 
           <div class="form-group">
-              <label for="title">Transaction Code <span class="require">*</span></label>
-              <input type="password" class="form-control" name="transaction_code" />
-          </div>
-
-  		    <div class="form-group">
             <div class="row">
               <div class="col-sm-6">
     		        <label for="description">Bank</label>
-    		        <input type="text" class="form-control" name="bank_name" ></input>
+    		        <input type="text" class="form-control" name="bank_name" required></input>
               </div>
               <div class="col-sm-6">
-    		        <label for="description">Status</label>
-                <select name="status" class="form-control">
-                  <option value="">Choose Status</option>
-                  <option value="1">Active</option>
-                  <option value="0">Non Active</option>
-                </select>
+    		        <label for="description">Ammount</label>
+                <input type="number" class="form-control" name="ammount" required></input>
               </div>
             </div>
+          </div>
+
+          <div class="form-group">
+              <label for="title">Note <span class="require">*</span></label>
+              <textarea class="form-control" name="note"></textarea>
+          </div>
+
+          <div class="form-group">
+              <label for="title">Transaction Code <span class="require">*</span></label>
+              <input type="password" class="form-control" name="transaction_code" required/>
           </div>
 
   		    <div class="form-group">
@@ -144,7 +156,7 @@
   		    </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Create</button>
+          <button type="submit" class="btn btn-primary">Top Up</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -161,7 +173,6 @@ $(document).ready(function() {
     responsive: true
   });
 });
-
 
 function bankChange(){
   $( "#bank-change" ).submit();

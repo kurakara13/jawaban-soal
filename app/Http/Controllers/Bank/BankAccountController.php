@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\BankAccount;
 use Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 class BankAccountController extends Controller
 {
@@ -18,13 +19,19 @@ class BankAccountController extends Controller
     public function index()
     {
         $bank_account = BankAccount::where('user_id', Auth::user()->id)->get();
+        $ammount = 0;
+
         if(session()->has('account_id')){
           $bank_ammount = BankAccount::select('ammount')->where('user_id', Auth::user()->id)->where('id', session()->get('account_id'))->first();
         }else {
           $bank_ammount = BankAccount::select('ammount')->where('user_id', Auth::user()->id)->first();
         }
 
-        return view('bank.bank-account.index', compact('bank_account', 'bank_ammount'));
+        if($bank_ammount != null){
+          $ammount = $bank_ammount->ammount;
+        }
+
+        return view('bank.bank-account.index', compact('bank_account', 'ammount'));
     }
 
     /**
@@ -53,7 +60,7 @@ class BankAccountController extends Controller
         $bank_account->account_name = $request->account_name;
         $bank_account->bank_name = $request->bank_name;
         $bank_account->status = $request->status;
-        $bank_account->transaction_code = $request->transaction_code;
+        $bank_account->transaction_code = Hash::make($request->transaction_code);
 
         $bank_account->save();
 
